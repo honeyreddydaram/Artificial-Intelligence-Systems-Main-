@@ -1,0 +1,8 @@
+filename: s0001_re.csv
+heart_rate: 103.11295485142671
+processing_params: {'lowcut': 3.5, 'highcut': 35.0, 'powerline_freq': 50, 'r_peak_method': 'xqrs'}
+timestamp: 20250430_172727
+fs: 250
+num_channels: 15
+duration: 153.6
+num_heartbeats: 137

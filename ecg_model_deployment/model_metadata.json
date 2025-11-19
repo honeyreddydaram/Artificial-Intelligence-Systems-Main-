@@ -1,0 +1,44 @@
+{
+  "model_name": "Advanced_CNN",
+  "model_version": "1.0.0",
+  "training_date": "2025-06-30T04:58:52.065258",
+  "performance_metrics": {
+    "accuracy": 0.9883582089552239,
+    "balanced_accuracy": 0.9883590090798339,
+    "f1_micro": 0.9883582089552239,
+    "f1_macro": 0.9883566910725802,
+    "f1_weighted": 0.9883568151460019,
+    "precision_Normal": 0.9848619768477292,
+    "recall_Normal": 0.9910394265232975,
+    "f1_Normal": 0.9879410451094238,
+    "precision_Moderate Risk": 0.9936594202898551,
+    "recall_Moderate Risk": 0.982094897045658,
+    "f1_Moderate Risk": 0.9878433138226025,
+    "precision_High Risk": 0.9866429207479964,
+    "recall_High Risk": 0.9919427036705462,
+    "f1_High Risk": 0.9892857142857143,
+    "matthews_corrcoef": 0.9825540070121307,
+    "cohen_kappa": 0.9825373282152268,
+    "log_loss": 0.04562328285957187,
+    "roc_auc_ovr": 0.9992854504806011,
+    "roc_auc_ovo": 0.9992853959248125
+  },
+  "input_shape": [
+    180,
+    1
+  ],
+  "output_classes": 3,
+  "class_names": [
+    "Normal",
+    "Moderate Risk",
+    "High Risk"
+  ],
+  "sampling_frequency": 360,
+  "window_size": 180,
+  "preprocessing_steps": [
+    "outlier_removal",
+    "per_beat_normalization",
+    "smote_balancing",
+    "data_augmentation"
+  ]
+}

@@ -1,0 +1,12 @@
+Time (s),R_Peak_Index,Beat_Type,Confidence
+0.856,214,Atrial Premature,0.8
+1.716,429,Atrial Premature,0.8
+2.572,643,Atrial Premature,0.8
+3.428,857,Atrial Premature,0.8
+4.288,1072,Atrial Premature,0.8
+5.144,1286,Atrial Premature,0.7
+6.0,1500,Atrial Premature,0.8
+6.856,1714,Atrial Premature,0.7
+7.716,1929,Atrial Premature,0.8
+8.572000000000001,2143,Atrial Premature,0.8
+9.428,2357,Atrial Premature,0.7

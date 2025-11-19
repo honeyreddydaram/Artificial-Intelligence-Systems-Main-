@@ -1,0 +1,8 @@
+filename: synthetic_ecg.csv
+heart_rate: 68.97128988522164
+processing_params: {'lowcut': 5.0, 'highcut': 30.0, 'powerline_freq': 50, 'r_peak_method': 'xqrs'}
+timestamp: 20250410_121221
+fs: 250
+num_channels: 2
+duration: 10.0
+num_heartbeats: 11

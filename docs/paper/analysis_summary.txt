@@ -1,0 +1,28 @@
+ECG ANALYSIS SUMMARY
+===================
+
+Number of samples: 2271
+Number of features: 52
+Target distribution: {0: 1144, 1: 1127}
+
+Model Performance:
+  - Random Forest: 0.4754
+  - SVM: 0.4771
+  - Neural Network: 0.5035
+  - Majority Voting: 0.4947
+
+Top 10 Important Features:
+  - detail_4_mean: 0.0324
+  - mean: 0.0315
+  - p_amp: 0.0307
+  - detail_3_mean: 0.0307
+  - p95: 0.0307
+  - p25: 0.0306
+  - median: 0.0301
+  - approx_mean: 0.0293
+  - p_prominence: 0.0285
+  - pq_amp: 0.0281
+
+Conclusions:
+  - Best model: Neural Network
+  - Ensemble performance: Did not improve over individual models
