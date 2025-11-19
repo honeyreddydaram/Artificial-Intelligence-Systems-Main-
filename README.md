@@ -1,4 +1,4 @@
-# ECG Analysis & Arrhythmia Classification System
+# AI-Powered ECG Signal Processing and Arrhythmia Detection System
 
 A comprehensive Python-based application for advanced ECG signal analysis, PQRST peak detection, feature extraction, and arrhythmia classification using deep learning models. This system provides both research capabilities and clinical-grade analysis tools through an intuitive Streamlit web interface.
 
