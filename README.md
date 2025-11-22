@@ -225,6 +225,13 @@ print(f"Confidence: {risk_assessment['confidence']:.2%}")
 - **Multi-lead (10s)**: ~5-8 seconds
 - **Batch Processing**: ~50 files/minute
 
+## 🌐 Deployment
+
+### Local Deployment
+```bash
+# Development server
+streamlit run app.py --server.port 8501
+
 
 ## 📁 Project Structure
 
