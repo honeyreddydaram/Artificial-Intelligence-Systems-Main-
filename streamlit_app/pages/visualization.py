@@ -40,7 +40,17 @@ from streamlit_app.utils.helpers import (
     plot_feature_distribution, get_download_link, get_figure_download_link
 )
 
+def log_page_visit():
+    metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
+    visit_time = datetime.datetime.now().isoformat()
+    df = pd.DataFrame({'event': ['visualization_page_visit'], 'timestamp': [visit_time]})
+    if os.path.exists(metrics_file):
+        df.to_csv(metrics_file, mode='a', header=False, index=False)
+    else:
+        df.to_csv(metrics_file, index=False)
+
 def show():
+    log_page_visit()
     """Show the ECG Visualization page."""
     st.title("ECG Visualization")
     

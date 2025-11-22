@@ -486,15 +486,18 @@ def show():
 
 if __name__ == "__main__":
     show()
+    import time
     def log_page_visit():
         metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
-        visit_time = datetime.now().isoformat()
-        df = pd.DataFrame({'event': ['classification_page_visit'], 'timestamp': [visit_time]})
+        start_time = time.time()
+        # Simulate page load or key operation
+        time.sleep(0.2)  # Simulate a 200ms operation
+        response_time = time.time() - start_time
+        df = pd.DataFrame({'event': ['classification_page_visit'], 'response_time': [response_time]})
         if os.path.exists(metrics_file):
             df.to_csv(metrics_file, mode='a', header=False, index=False)
         else:
             df.to_csv(metrics_file, index=False)
-    
     log_page_visit()
     
     # User Feedback Section (added after results)
@@ -516,26 +519,21 @@ if __name__ == "__main__":
             else:
                 feedback_data.to_csv(feedback_file, index=False)
             st.success("Thank you for your feedback!")
-    # Add response time logging and user feedback collection
-    metrics_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
-    feedback_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
-    
+    def log_classification_response_time(response_time):
+        metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
+        df = pd.DataFrame({'event': ['classification_page_visit'], 'response_time': [response_time]})
+        if os.path.exists(metrics_file):
+            df[['event', 'response_time']].to_csv(metrics_file, mode='a', header=False, index=False)
+        else:
+            df[['event', 'response_time']].to_csv(metrics_file, index=False)
+
     # Example: Instrument a key user action (e.g., classification)
     if st.button("Run Classification"):
         start_time = time_module.time()
         # ... existing classification logic ...
         end_time = time_module.time()
         response_time = end_time - start_time
-        # Log response time
-        if os.path.exists(metrics_path):
-            with open(metrics_path, 'a', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), response_time])
-        else:
-            with open(metrics_path, 'w', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow(["timestamp", "response_time"])
-                writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), response_time])
+        log_classification_response_time(response_time)
         st.success(f"Classification completed in {response_time:.2f} seconds.")
         # Collect user feedback
         feedback = st.text_input("Please provide feedback on the classification result:")

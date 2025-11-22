@@ -103,9 +103,11 @@ streamlit_app/
 │   ├── home.py            # Welcome and overview
 │   ├── analysis.py        # ECG analysis and processing
 │   ├── classification.py  # Arrhythmia classification
+│   ├── metrics_dashboard.py # Performance metrics Dashboard
 │   └── visualization.py   # Interactive plotting
 └── utils/
-    └── helpers.py         # Utility functions
+    │   ├── helpers.py         # Utility functions
+    │   └── metrics_exporter.py   # Dashboard
 ```
 
 ### Model Deployment
@@ -127,6 +129,8 @@ ecg_model_deployment/
 ### Installation
 
 1. **Clone the repository:**
+   https://github.com/honeyreddydaram/Artificial-Intelligence-Systems-Main-.git 
+   
 2. **Create virtual environment:**
    ```bash
    python -m venv ecg_env
@@ -146,6 +150,13 @@ ecg_model_deployment/
 5. **Access the web interface:**
    Open your browser to `http://localhost:8501`
 
+6. **Access the Metrics Dashboard:**
+   ```powershell 
+   streamlit run streamlit_app/pages/metrics_dashboard.py
+   ```
+7. **Access the Metrics Dashboard:**
+   Open your browser to `http://localhost:8502`
+
 ### Quick Start Guide
 
 1. **Upload ECG Data**: Use the file uploader to select your ECG file
@@ -153,6 +164,7 @@ ecg_model_deployment/
 3. **Run Analysis**: Click "Process ECG" to start the analysis pipeline
 4. **View Results**: Explore detected peaks, features, and classification results
 5. **Export Data**: Download processed data and analysis reports
+6. **Explore Metrics**: View performance metrics and model insights
 
 ## 📈 Usage Examples
 

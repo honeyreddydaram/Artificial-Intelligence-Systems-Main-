@@ -9,6 +9,7 @@ import os
 import sys
 import pandas as pd
 from datetime import datetime
+import time
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -186,8 +187,12 @@ def show():
 
 def log_page_visit():
     metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
-    visit_time = datetime.now().isoformat()
-    df = pd.DataFrame({'event': ['page_visit'], 'timestamp': [visit_time]})
+    start_time = time.time()
+    # Simulate page load or key operation
+    # Here, simulate a delay to represent operation duration
+    time.sleep(0.2)  # Simulate a 200ms operation
+    response_time = time.time() - start_time
+    df = pd.DataFrame({'event': ['page_visit'], 'response_time': [response_time]})
     if os.path.exists(metrics_file):
         df.to_csv(metrics_file, mode='a', header=False, index=False)
     else:
