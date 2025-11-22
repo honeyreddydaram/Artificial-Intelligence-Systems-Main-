@@ -231,10 +231,9 @@ print(f"Confidence: {risk_assessment['confidence']:.2%}")
 ```bash
 # Development server
 streamlit run app.py --server.port 8501
-
+```
 
 ## 📁 Project Structure
-
 ```
 ECG_Analysis/
 ├── app.py                          # Main Streamlit application
