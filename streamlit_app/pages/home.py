@@ -7,6 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
+import pandas as pd
+from datetime import datetime
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -180,3 +182,15 @@ def show():
         - Save analysis results for future reference
         - Download data files and figures for further analysis
         """)
+
+
+def log_page_visit():
+    metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
+    visit_time = datetime.now().isoformat()
+    df = pd.DataFrame({'event': ['page_visit'], 'timestamp': [visit_time]})
+    if os.path.exists(metrics_file):
+        df.to_csv(metrics_file, mode='a', header=False, index=False)
+    else:
+        df.to_csv(metrics_file, index=False)
+
+log_page_visit()

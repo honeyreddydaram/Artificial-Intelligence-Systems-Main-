@@ -14,6 +14,26 @@ import datetime
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+# User Feedback Section (added before visualization)
+st.header("User Feedback")
+feedback_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
+with st.form("feedback_form_visualization"):
+    feedback_text = st.text_area("Please share your feedback or suggestions:")
+    rating = st.selectbox("How would you rate your experience?", ["Excellent", "Good", "Average", "Poor"])
+    submitted = st.form_submit_button("Submit Feedback")
+    if submitted:
+        feedback_time = datetime.datetime.now().isoformat()
+        feedback_data = pd.DataFrame({
+            'timestamp': [feedback_time],
+            'feedback': [feedback_text],
+            'rating': [rating]
+        })
+        if os.path.exists(feedback_file):
+            feedback_data.to_csv(feedback_file, mode='a', header=False, index=False)
+        else:
+            feedback_data.to_csv(feedback_file, index=False)
+        st.success("Thank you for your feedback!")
+
 # Import helper functions
 from streamlit_app.utils.helpers import (
     plot_ecg_with_peaks, plot_heartbeats, plot_average_heartbeat, 
@@ -112,10 +132,38 @@ def show():
                                         st.error(f"Error reading file: {e}")
                     else:
                         st.info("No data files found in this result.")
+                # User Feedback Section (moved to end of Results Explorer tab)
+                st.header("User Feedback")
+                feedback_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
+                with st.form("feedback_form_visualization"):
+                    feedback_text = st.text_area("Please share your feedback or suggestions:")
+                    rating = st.selectbox("How would you rate your experience?", ["Excellent", "Good", "Average", "Poor"])
+                    submitted = st.form_submit_button("Submit Feedback")
+                    if submitted:
+                        feedback_time = datetime.datetime.now().isoformat()
+                        feedback_data = pd.DataFrame({
+                            'timestamp': [feedback_time],
+                            'feedback': [feedback_text],
+                            'rating': [rating]
+                        })
+                        if os.path.exists(feedback_file):
+                            feedback_data.to_csv(feedback_file, mode='a', header=False, index=False)
+                        else:
+                            feedback_data.to_csv(feedback_file, index=False)
+                        st.success("Thank you for your feedback!")
     
     # Tab 2: Signal Visualization
     with tabs[1]:
         st.header("Signal Visualization")
+        
+        # Debug: Print session state keys and check for expected data
+        st.write("Session State Keys:", list(st.session_state.keys()))
+        if 'ecg_data' in st.session_state:
+            st.write("ecg_data type:", type(st.session_state.ecg_data))
+        if 'processed_signal' in st.session_state:
+            st.write("processed_signal type:", type(st.session_state.processed_signal))
+        if 'pqrst_peaks' in st.session_state:
+            st.write("pqrst_peaks type:", type(st.session_state.pqrst_peaks))
         
         # Check if ECG data is available in session state
         if 'ecg_data' not in st.session_state or st.session_state.ecg_data is None:
@@ -177,9 +225,12 @@ def show():
             
             if (view_type == "Processed" or view_type == "Raw & Processed") and \
                'processed_signal' in st.session_state and st.session_state.processed_signal is not None:
-                ax.plot(time[start_sample:end_sample], 
-                        st.session_state.processed_signal[start_sample:end_sample, channel], 
-                        'g-', label="Processed ECG")
+                processed_signal = st.session_state.processed_signal
+                # Handle both 1D and 2D processed_signal
+                if processed_signal.ndim == 1:
+                    ax.plot(time[start_sample:end_sample], processed_signal[start_sample:end_sample], 'g-', label="Processed ECG")
+                else:
+                    ax.plot(time[start_sample:end_sample], processed_signal[start_sample:end_sample, channel], 'g-', label="Processed ECG")
             
             if view_type == "With Peaks" and \
                'processed_signal' in st.session_state and st.session_state.processed_signal is not None and \
@@ -332,6 +383,26 @@ def show():
             
             # Download link for figure
             st.markdown(get_figure_download_link(fig, "heartbeat_analysis.png", "Download Figure"), unsafe_allow_html=True)
+    
+            # User Feedback Section (moved to end of Results Explorer tab)
+            st.header("User Feedback")
+            feedback_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
+            with st.form("feedback_form_visualization"):
+                feedback_text = st.text_area("Please share your feedback or suggestions:")
+                rating = st.selectbox("How would you rate your experience?", ["Excellent", "Good", "Average", "Poor"])
+                submitted = st.form_submit_button("Submit Feedback")
+                if submitted:
+                    feedback_time = datetime.datetime.now().isoformat()
+                    feedback_data = pd.DataFrame({
+                        'timestamp': [feedback_time],
+                        'feedback': [feedback_text],
+                        'rating': [rating]
+                    })
+                    if os.path.exists(feedback_file):
+                        feedback_data.to_csv(feedback_file, mode='a', header=False, index=False)
+                    else:
+                        feedback_data.to_csv(feedback_file, index=False)
+                    st.success("Thank you for your feedback!")
     
     # Tab 4: Feature Analysis
     with tabs[3]:

@@ -13,6 +13,7 @@ import time as time_module
 import joblib
 import glob
 import json
+import csv
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -485,3 +486,67 @@ def show():
 
 if __name__ == "__main__":
     show()
+    def log_page_visit():
+        metrics_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
+        visit_time = datetime.now().isoformat()
+        df = pd.DataFrame({'event': ['classification_page_visit'], 'timestamp': [visit_time]})
+        if os.path.exists(metrics_file):
+            df.to_csv(metrics_file, mode='a', header=False, index=False)
+        else:
+            df.to_csv(metrics_file, index=False)
+    
+    log_page_visit()
+    
+    # User Feedback Section (added after results)
+    st.header("User Feedback")
+    feedback_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
+    with st.form("feedback_form"):
+        feedback_text = st.text_area("Please share your feedback or suggestions:")
+        rating = st.selectbox("How would you rate your experience?", ["Excellent", "Good", "Average", "Poor"])
+        submitted = st.form_submit_button("Submit Feedback")
+        if submitted:
+            feedback_time = datetime.now().isoformat()
+            feedback_data = pd.DataFrame({
+                'timestamp': [feedback_time],
+                'feedback': [feedback_text],
+                'rating': [rating]
+            })
+            if os.path.exists(feedback_file):
+                feedback_data.to_csv(feedback_file, mode='a', header=False, index=False)
+            else:
+                feedback_data.to_csv(feedback_file, index=False)
+            st.success("Thank you for your feedback!")
+    # Add response time logging and user feedback collection
+    metrics_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'deployment_metrics.csv')
+    feedback_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'results', 'user_feedback.csv')
+    
+    # Example: Instrument a key user action (e.g., classification)
+    if st.button("Run Classification"):
+        start_time = time_module.time()
+        # ... existing classification logic ...
+        end_time = time_module.time()
+        response_time = end_time - start_time
+        # Log response time
+        if os.path.exists(metrics_path):
+            with open(metrics_path, 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), response_time])
+        else:
+            with open(metrics_path, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(["timestamp", "response_time"])
+                writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), response_time])
+        st.success(f"Classification completed in {response_time:.2f} seconds.")
+        # Collect user feedback
+        feedback = st.text_input("Please provide feedback on the classification result:")
+        if st.button("Submit Feedback") and feedback:
+            if os.path.exists(feedback_path):
+                with open(feedback_path, 'a', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), feedback])
+            else:
+                with open(feedback_path, 'w', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["timestamp", "feedback"])
+                    writer.writerow([time_module.strftime('%Y-%m-%d %H:%M:%S'), feedback])
+            st.success("Thank you for your feedback!")

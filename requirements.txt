@@ -17,3 +17,5 @@ azure-identity
 jupyterlab
 seaborn
 biosppy>=0.8.0
+gradio 
+prometheus-client==0.16.0

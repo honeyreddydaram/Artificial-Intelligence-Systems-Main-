@@ -1,0 +1,9 @@
+global:
+scrape_interval: 15s
+scrape_configs:
+  - job_name: 'gradio'
+    static_configs:
+      - targets: ['gradio-app:7860']
+  - job_name: 'streamlit_metrics'
+    static_configs:
+      - targets: ['gradio-app:8000']

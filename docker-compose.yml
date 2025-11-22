@@ -1,0 +1,18 @@
+version: '3.8' services:
+gradio-app: build: - ports:
+- "7860: 7860"
+- "8000:8000" # Expose Prometheus metrics container
+* name: gradio-app
+
+prometheus:
+image: prom/prometheus: latest volumes:
+- -/prometheus.yml: /ets/prometheus/prometheus.vml
+ports:
+- "9090:9090"
+
+grafana:
+image: gcafana/grafana:latest ports:
+- "3000:3000" environment:
+- GF_SECURITY_ADMIN_PASSWORD=admin
+- GF_SECURITY_ADMIN_PASSWORD=admin
+- GF_AUTH_ANONYMOUS_ENABLED=true # Enable anonymous access 
